@@ -1,0 +1,39 @@
+<Root>
+  <Customers>
+    <!--Zero or more repetitions:-->
+    <Customer CustomerID="token">
+      <CompanyName>string</CompanyName>
+      <ContactName>string</ContactName>
+      <ContactTitle>string</ContactTitle>
+      <Phone>string</Phone>
+      <!--Optional:-->
+      <Fax>string</Fax>
+      <FullAddress CustomerID="token">
+        <Address>string</Address>
+        <City>string</City>
+        <Region>string</Region>
+        <PostalCode>string</PostalCode>
+        <Country>string</Country>
+      </FullAddress>
+    </Customer>
+  </Customers>
+  <Orders>
+    <!--Zero or more repetitions:-->
+    <Order>
+      <CustomerID>token</CustomerID>
+      <EmployeeID>token</EmployeeID>
+      <OrderDate>2008-09-29T05:49:45</OrderDate>
+      <RequiredDate>2014-09-19T03:18:33</RequiredDate>
+      <ShipInfo ShippedDate="2006-08-19T21:27:14+04:00">
+        <ShipVia>100</ShipVia>
+        <Freight>1000.00</Freight>
+        <ShipName>string</ShipName>
+        <ShipAddress>string</ShipAddress>
+        <ShipCity>string</ShipCity>
+        <ShipRegion>string</ShipRegion>
+        <ShipPostalCode>string</ShipPostalCode>
+        <ShipCountry>string</ShipCountry>
+      </ShipInfo>
+    </Order>
+  </Orders>
+</Root>
