@@ -35,6 +35,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -52,12 +58,7 @@
                 </executions>
                 <configuration>
                     <generatePackage>ru.vood.plugin.generated.from.xsd</generatePackage>
-                    <schemaDirectory>src/main/resources/XSDSchema</schemaDirectory>
-                    <schemaIncludes>
-                        <include>code-generator-param-1.0.xsd</include>
-                        <include>code-generator-data-1.0.xsd</include>
-                    </schemaIncludes>
-
+                    <schemaDirectory>src/main/resources/xsdShema</schemaDirectory>
                     <cleanPackageDirectories>true</cleanPackageDirectories>
                 </configuration>
             </plugin>
