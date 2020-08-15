@@ -1,6 +1,5 @@
 package ru.vood.xdsservice;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import ru.vood.plugin.generated.from.xsd.CustomerType;
@@ -8,6 +7,9 @@ import ru.vood.plugin.generated.from.xsd.OrderType;
 import ru.vood.plugin.generated.from.xsd.Root;
 import ru.vood.plugin.generated.from.xsd.ShipInfoType;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.IntConsumer;
@@ -41,7 +43,7 @@ public class XmlGenerator implements CommandLineRunner {
                     OrderType ot = new OrderType();
                     ot.setCustomerID("setCustomerID" + i);
                     ot.setEmployeeID("setCustomerID" + i);
-                    ot.setOrderDate(new XMLGregorianCalendarImpl());
+//                    ot.setOrderDate(new XMLGregorianCalendarImpl());
                     ShipInfoType shipInfoType = new ShipInfoType();
                     shipInfoType.setFreight(new BigDecimal(i));
                     shipInfoType.setShipAddress("setShipAddress" + i);
@@ -55,5 +57,17 @@ public class XmlGenerator implements CommandLineRunner {
         root.setCustomers(customers);
 
         root.setOrders(orders);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(Root.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        //Marshal the employees list in console
+        jaxbMarshaller.marshal(root, System.out);
+
+        //Marshal the employees list in file
+        jaxbMarshaller.marshal(root, new File("employees.xml"));
+
     }
 }
