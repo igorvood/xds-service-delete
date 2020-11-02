@@ -3,11 +3,12 @@ package ru.vood.xdsservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class XdsServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(XdsServiceApplication.class, args);
+    public static void main(String[] args) throws Exception {
+//        SpringApplication.run(XdsServiceApplication.class, args);
+        new XmlGenerator().run(args);
     }
 
 }

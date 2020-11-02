@@ -12,7 +12,9 @@ import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.IntConsumer;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 @Service
@@ -26,29 +28,31 @@ public class XmlGenerator implements CommandLineRunner {
         List<CustomerType> customerList = customers.getCustomer();
 
         IntStream.range(0, 1000)
+                .parallel()
                 .forEach(i -> {
                     CustomerType ct = new CustomerType();
-                    ct.setCompanyName("setCompanyName" + i);
-                    ct.setContactName("setContactName" + i);
-                    ct.setContactTitle("setContactTitle" + i);
-                    ct.setFax("setFax" + i);
-                    ct.setCustomerID("setCustomerID" + i);
+                    ct.setCompanyName(multiply("setCompanyName", i));
+                    ct.setContactName(multiply("setContactName", i));
+                    ct.setContactTitle(multiply("setContactTitle", i));
+                    ct.setFax(multiply("setFax", i));
+                    ct.setCustomerID(multiply("setCustomerID", i));
                     customerList.add(ct);
                 });
 
         Root.Orders orders = new Root.Orders();
         List<OrderType> orderList = orders.getOrder();
         IntStream.range(0, 1000)
+                .parallel()
                 .forEach(i -> {
                     OrderType ot = new OrderType();
-                    ot.setCustomerID("setCustomerID" + i);
-                    ot.setEmployeeID("setCustomerID" + i);
+                    ot.setCustomerID(multiply("setCustomerID", i));
+                    ot.setEmployeeID(multiply("setCustomerID", i));
 //                    ot.setOrderDate(new XMLGregorianCalendarImpl());
                     ShipInfoType shipInfoType = new ShipInfoType();
                     shipInfoType.setFreight(new BigDecimal(i));
-                    shipInfoType.setShipAddress("setShipAddress" + i);
-                    shipInfoType.setShipCity("setShipCity" + i);
-                    shipInfoType.setShipName("setShipName" + i);
+                    shipInfoType.setShipAddress(multiply("setShipAddress", i));
+                    shipInfoType.setShipCity(multiply("setShipCity" , i));
+                    shipInfoType.setShipName(multiply("setShipName" , i));
                     ot.setShipInfo(shipInfoType);
                     orderList.add(ot);
                 });
@@ -64,10 +68,19 @@ public class XmlGenerator implements CommandLineRunner {
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         //Marshal the employees list in console
-        jaxbMarshaller.marshal(root, System.out);
+//        jaxbMarshaller.marshal(root, System.out);
 
         //Marshal the employees list in file
         jaxbMarshaller.marshal(root, new File("employees.xml"));
+
+    }
+
+    private String multiply(String setCustomerID, int i) {
+        return IntStream.range(0, i*40)
+                .parallel()
+                .mapToObj(i1 -> i+setCustomerID)
+                .reduce((o1, o2) -> o1 + o2)
+                .orElse("kdjshakjdshf");
 
     }
 }
